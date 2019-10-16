@@ -10,39 +10,38 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            Log.d(null, "made it to the user")
-            Log.d(null, user.email)
-            findViewById<TextView>(R.id.user).text = user.email.toString()
+
+        setContentView(R.layout.activity_main)
+        var auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null) {
+            var bleh = auth.currentUser!!.email.toString()
+            findViewById<TextView>(R.id.user).text = bleh.toString()
+            // already signed in
         } else {
-            createSignInIntent()
-            user = FirebaseAuth.getInstance().currentUser
+
+
+            val providers = arrayListOf(
+                AuthUI.IdpConfig.GoogleBuilder().build())
+
+// Create and launch sign-in intent
+            startActivityForResult(
+                AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers)
+                    .build(),
+                RC_SIGN_IN)
+
+
         }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
-
-    // https://firebase.google.com/docs/auth/android/firebaseui
-    private fun createSignInIntent() {
-        // [START auth_fui_create_intent]
-        // Choose authentication providers
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.GoogleBuilder().build())
-
-        // Create and launch sign-in intent
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .build(),
-            RC_SIGN_IN)
-        // [END auth_fui_create_intent]
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
