@@ -26,8 +26,10 @@ class MainActivity : AppCompatActivity() {
         AuthUI.getInstance()
             .signOut(this)
             .addOnCompleteListener {
-                // ...
+                finish();
+                startActivity(getIntent());
             }
+
     }
 
     companion object {
