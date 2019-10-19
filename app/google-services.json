@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "414582689858",
+    "firebase_url": "https://apt-line-picker.firebaseio.com",
+    "project_id": "apt-line-picker",
+    "storage_bucket": "apt-line-picker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414582689858:android:a1564b43e36a3a2fab5ddb",
+        "android_client_info": {
+          "package_name": "com.example.apt_line_picker_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414582689858-4nf9h85b8flr8utia3dhsstm6ke89ajo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbtKrY76dgtyv1il5blkw3qopBGOn4AIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414582689858-4nf9h85b8flr8utia3dhsstm6ke89ajo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
