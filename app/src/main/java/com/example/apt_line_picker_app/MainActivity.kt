@@ -1,21 +1,24 @@
 package com.example.apt_line_picker_app
-
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
 import android.widget.TextView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
-        var auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null) {
-            findViewById<TextView>(R.id.user).text = auth.currentUser!!.email.toString()
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        Log.w(null, account.toString())
+        if (account != null) {
+            findViewById<TextView>(R.id.user).text = account!!.email.toString()
+            startActivity(Intent(this, UserSettings::class.java))
         } else {
             startActivity(Intent(this, FirebaseActivity::class.java))
         }
@@ -29,11 +32,5 @@ class MainActivity : AppCompatActivity() {
                 finish();
                 startActivity(getIntent());
             }
-
-    }
-
-    companion object {
-
-        private const val RC_SIGN_IN = 123
     }
 }
