@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UserSettings"></activity>
+        <activity android:name=".MySubmissions"></activity>
         <activity android:name=".FirebaseActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
