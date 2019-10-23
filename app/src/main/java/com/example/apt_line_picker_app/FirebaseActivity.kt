@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.activity_firebase.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -62,8 +63,11 @@ class FirebaseActivity : AppCompatActivity() {
                 Log.w(null, account.id)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
+                errorNotice.text = "error on sign in: " + e.toString()
                 Log.w(null, "Google sign in failed", e)
             }
+        } else {
+            errorNotice.text = "error on sign in: RequestCode not 123"
         }
     }
 
