@@ -22,7 +22,7 @@ import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import android.util.Log
 
 
 
@@ -43,9 +43,10 @@ class MySubmissions : AppCompatActivity() {
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
-        val currentuser = FirebaseAuth.getInstance().currentUser!!.uid
-        val url = "http://10.0.2.2:5000/mobile/"+currentuser+"/mysubmissions"
-
+        val currentuser = FirebaseAuth.getInstance().currentUser!!.displayName
+        val gooduid = currentuser!!.replace(" ", "_")
+        val url = "http://127.0.0.1:5000/mobile/rofranklin/mysubmissions"
+        Log.e("Tag", url)
         val jsonObjReq = object : JsonObjectRequest(Method.GET,
             url, null,
             Response.Listener { response ->

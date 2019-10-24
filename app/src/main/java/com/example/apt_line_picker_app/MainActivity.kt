@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         Log.w(null, account.toString())
         if (account != null) {
             findViewById<TextView>(R.id.user).text = account!!.email.toString()
-            startActivity(Intent(this, UserSettings::class.java))
+            startActivity(Intent(this, MySubmissions::class.java))
         } else {
             startActivity(Intent(this, FirebaseActivity::class.java))
         }
