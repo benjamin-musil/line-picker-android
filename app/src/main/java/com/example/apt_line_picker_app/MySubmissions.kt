@@ -14,7 +14,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_user_settings.*
+import kotlinx.android.synthetic.main.activity_my_submissions.*
 import java.net.CookieHandler
 import com.android.volley.AuthFailureError
 import android.R.string.no
@@ -43,17 +43,18 @@ class MySubmissions : AppCompatActivity() {
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
+        Log.e("Tag", token)
         val currentuser = FirebaseAuth.getInstance().currentUser!!.displayName
         val gooduid = currentuser!!.replace(" ", "_")
-        val url = "http://127.0.0.1:5000/mobile/rofranklin/mysubmissions"
+        val url = "http://10.0.2.2:5000/mobile/"+gooduid+"/mysubmissions"
         Log.e("Tag", url)
         val jsonObjReq = object : JsonObjectRequest(Method.GET,
             url, null,
             Response.Listener { response ->
-                textView2.text = "Response: %s".format(response.toString())
+                textView3.text = "Response: %s".format(response.toString())
             },
             Response.ErrorListener { error ->
-                textView2.text = error.toString()
+                textView3.text = error.toString()
             }) {
             /** Passing some request headers*  */
             @Throws(AuthFailureError::class)
@@ -64,7 +65,7 @@ class MySubmissions : AppCompatActivity() {
                 return headers
             }
         }
-
+        Log.e("Tag", jsonObjReq.toString())
         // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
