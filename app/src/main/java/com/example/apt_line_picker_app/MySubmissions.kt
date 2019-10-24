@@ -43,12 +43,9 @@ class MySubmissions : AppCompatActivity() {
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
-        Log.e("Tag", token)
-        Log.e("Tag",  FirebaseAuth.getInstance().toString())
         val currentuser = FirebaseAuth.getInstance().currentUser!!.displayName
         val gooduid = currentuser!!.replace(" ", "_")
         val url = "http://10.0.2.2:5000/mobile/"+gooduid+"/mysubmissions"
-        Log.e("Tag", url)
         val jsonObjReq = object : JsonObjectRequest(Method.GET,
             url, null,
             Response.Listener { response ->
@@ -66,7 +63,6 @@ class MySubmissions : AppCompatActivity() {
                 return headers
             }
         }
-        Log.e("Tag", jsonObjReq.toString())
         // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
