@@ -15,8 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
         val account = GoogleSignIn.getLastSignedInAccount(this)
-        Log.w(null, account.toString())
-        if (account != null) {
+        if (account != null && FirebaseAuth.getInstance().currentUser != null) {
             findViewById<TextView>(R.id.user).text = account!!.email.toString()
             startActivity(Intent(this, MySubmissions::class.java))
         } else {
