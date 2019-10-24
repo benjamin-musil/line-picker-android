@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import com.firebase.ui.auth.AuthUI
 import android.widget.TextView
+import com.example.apt_line_picker_app.View.RestaurantActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         Log.w(null, account.toString())
         if (account != null) {
             findViewById<TextView>(R.id.user).text = account!!.email.toString()
-            startActivity(Intent(this, UserSettings::class.java))
+            startActivity(Intent(this, RestaurantActivity::class.java))
         } else {
             startActivity(Intent(this, FirebaseActivity::class.java))
         }
