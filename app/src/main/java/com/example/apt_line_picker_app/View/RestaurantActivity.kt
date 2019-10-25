@@ -96,17 +96,28 @@ class RestaurantActivity : AppCompatActivity() {
 
     fun updateRestaurantTable(restaurant: Restaurant){
         val tl = findViewById(com.example.apt_line_picker_app.R.id.waitTimes) as TableLayout
-        for(i in restaurant.wait_times){
+        for(submission in restaurant.wait_times){
             val tr1 = TableRow(this)
-            for(j in i!!){
-                val textview = TextView(this)
-                textview.setText(j)
-                tr1.addView(textview)
-            }
+
+            val timeTextView = TextView(this)
+            timeTextView.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+            timeTextView.text = submission[0]
+
+            val submissionTextView = TextView(this)
+            submissionTextView.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            submissionTextView.text = submission[1]
+
+            val reportedByTextView = TextView(this)
+            reportedByTextView.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+            reportedByTextView.text = submission[2]
+
+            tr1.addView(timeTextView)
+            tr1.addView(submissionTextView)
+            tr1.addView(reportedByTextView)
+
             tl.addView(tr1)
         }
     }
-
 
     fun fillScrollView(restaurant: Restaurant, context: Context) {
         var pictureView:LinearLayout = findViewById(R.id.imageHost)
