@@ -2,4 +2,5 @@
     <string name="app_name">apt-line-picker-app</string>
     <string name="user">user</string>
     <string name="default_web_key">414582689858-4nf9h85b8flr8utia3dhsstm6ke89ajo.apps.googleusercontent.com</string>
+    <string name="error"></string>
 </resources>
