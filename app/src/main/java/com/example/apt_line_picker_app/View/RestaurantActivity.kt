@@ -12,11 +12,9 @@ import com.example.apt_line_picker_app.Utils.Util
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.activity_firebase.*
 import kotlinx.android.synthetic.main.activity_restaurant.*
-import android.widget.TableLayout
 import android.R.attr.data
+import android.R.attr.height
 import androidx.databinding.adapters.TextViewBindingAdapter.setText
-import android.widget.TextView
-import android.widget.TableRow
 import org.json.JSONArray
 import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
@@ -31,8 +29,16 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-
-
+import com.synnapps.carouselview.CarouselView
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.view.View
+import android.widget.*
+import com.squareup.picasso.Picasso
+import com.synnapps.carouselview.ImageListener
+import java.io.InputStream
+import java.net.URI
+import java.net.URL
 
 
 class RestaurantActivity : AppCompatActivity() {
@@ -45,7 +51,6 @@ class RestaurantActivity : AppCompatActivity() {
         getRestaurant("5d97e5b9448ed112c9660b00", token!!, this)
     }
 
-
     fun getRestaurant(id: String, idToken:String, context: Context){
         var restaurant = Restaurant(id)
         val url = "http://10.0.2.2:5000/mobile/restaurant/${restaurant.id}"
@@ -55,29 +60,13 @@ class RestaurantActivity : AppCompatActivity() {
             Method.GET,
             url, null,
             Response.Listener { response ->
-                val gson = GsonBuilder().create()
                 restaurantAddress.text = response["address"].toString()
                 restaurantName.text = response["name"].toString()
 
-                val listType2 = object : TypeToken<Restaurant>() {
-                }.type
-
-                val restaurant = gson.fromJson<Restaurant>(response.toString(), listType2)
-
-                /** update table **/
-                val tl = findViewById(R.id.waitTimes) as TableLayout
-                for(i in restaurant.wait_times){
-                    val tr1 = TableRow(this)
-                    for(j in i!!){
-                        val textview = TextView(this)
-                        textview.setText(j)
-                        tr1.addView(textview)
-                    }
-                    tl.addView(tr1)
-                }
+                val restaurant = jsonToRestaurant(response)
+                updateRestaurantTable(restaurant)
+                fillScrollView(restaurant, context)
             },
-
-
             Response.ErrorListener { error ->
                 error.toString()
             }) {
@@ -96,16 +85,39 @@ class RestaurantActivity : AppCompatActivity() {
     }
 
 
-    fun getStringArray(jsonArray: JSONArray?): Array<String?>? {
-        var stringArray: Array<String?>? = null
-        if (jsonArray != null) {
-            val length = jsonArray.length()
-            stringArray = arrayOfNulls(length)
-            for (i in 0 until length) {
-                stringArray[i] = jsonArray.optString(i)
+    fun jsonToRestaurant(response: JSONObject):Restaurant {
+        val gson = GsonBuilder().create()
+        val listType2 = object : TypeToken<Restaurant>() {
+        }.type
+
+        return gson.fromJson<Restaurant>(response.toString(), listType2)
+    }
+
+
+    fun updateRestaurantTable(restaurant: Restaurant){
+        val tl = findViewById(com.example.apt_line_picker_app.R.id.waitTimes) as TableLayout
+        for(i in restaurant.wait_times){
+            val tr1 = TableRow(this)
+            for(j in i!!){
+                val textview = TextView(this)
+                textview.setText(j)
+                tr1.addView(textview)
             }
+            tl.addView(tr1)
         }
-        return stringArray
+    }
+
+
+    fun fillScrollView(restaurant: Restaurant, context: Context) {
+        var pictureView:LinearLayout = findViewById(R.id.imageHost)
+        var picasso = Picasso.with(this)
+        for(image in restaurant.images) {
+            var newImage = ImageView(context)
+            picasso
+                .load(image).fit().placeholder(R.drawable.picasso)
+                .into(newImage)
+            pictureView.addView(newImage)
+        }
     }
 
 
