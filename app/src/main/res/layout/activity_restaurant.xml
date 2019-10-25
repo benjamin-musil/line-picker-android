@@ -12,57 +12,72 @@
         android:id="@+id/restaurantName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:text="@string/restaurant_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView"-->
+    <!--        android:layout_width="261dp"-->
+    <!--        android:layout_height="220dp"-->
+    <!--        android:layout_marginTop="13dp"-->
+    <!--        android:clickable="true"-->
+    <!--        android:onClick="onClickWrapper"-->
+    <!--        android:src="@drawable/picasso"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/waitTimes"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/restaurantAddress"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
 
     <TextView
         android:id="@+id/restaurantAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="@string/restaurant_address"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurantName" />
 
-
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="261dp"-->
-<!--        android:layout_height="220dp"-->
-<!--        android:layout_marginTop="13dp"-->
-<!--        android:clickable="true"-->
-<!--        android:onClick="onClickWrapper"-->
-<!--        android:src="@drawable/picasso"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/waitTimes"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/restaurantAddress"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
-
     <TableLayout
         android:id="@+id/waitTimes"
-        android:layout_width="405dp"
-        android:layout_height="268dp"
+        android:layout_width="408dp"
+        android:layout_height="175dp"
         android:layout_marginTop="240dp"
         android:stretchColumns="1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurantAddress">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
+
             <TextView
-                android:text="Wait Time" />
+                android:layout_width="86dp"
+                android:background="#4CAF50"
+                android:text="Wait Time"
+                android:textAlignment="center" />
+
             <TextView
-                android:text="Reported" />
+                android:layout_width="202dp"
+                android:background="#4CAF50"
+                android:text="Reported"
+                android:textAlignment="center" />
+
             <TextView
-                android:text="Reported by" />
+                android:background="#4CAF50"
+                android:text="Reported by"
+                android:textAlignment="center" />
         </TableRow>
     </TableLayout>
 
@@ -70,9 +85,7 @@
         android:id="@+id/submitWaitTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:text="Submit Wait Time"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/waitTimes" />
@@ -81,12 +94,12 @@
         android:id="@+id/scrollView"
         android:layout_width="322dp"
         android:layout_height="228dp"
-        android:layout_marginTop="11dp"
         app:layout_constraintBottom_toTopOf="@+id/waitTimes"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restaurantAddress"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.424">
 
         <LinearLayout
             android:id="@+id/imageHost"
