@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".View.SubmitWaitTime"></activity>
+        <activity android:name=".View.AddRestaurant"></activity>
+        <activity android:name=".View.SubmitWaitTime" />
         <activity android:name=".View.RestaurantActivity" />
         <activity android:name=".UserSettings" />
         <activity android:name=".MySubmissions" />
