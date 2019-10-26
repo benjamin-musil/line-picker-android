@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <item
+        android:id="@+id/action_homeScreen"
+        android:orderInCategory="100"
+        android:title="@string/action_homeScreen"/>
+    <item
+        android:id="@+id/action_mySubmissions"
+        android:title="@string/action_mySubmissions"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_userSettings"
+        android:title="@string/action_userSettings"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_addRestuarrant"
+        android:title="@string/action_addRestuarrant"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_exitApplication"
+        android:title="@string/action_exitApplication"
+        android:orderInCategory="101"
+        app:showAsAction="never"/>
+</menu>

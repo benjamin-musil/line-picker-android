@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">APT6Android</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+<string name="action_homeScreen">Home</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="action_exit">Exit</string>
+    <string name="action_mySubmissions">My Submissions</string>
+    <string name="action_userSettings">My Settings</string>
+    <string name="action_addRestuarrant">Add Restaurant</string>
+    <string name="action_exitApplication">Exit</string>
 </resources>

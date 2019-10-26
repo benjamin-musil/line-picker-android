@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ListView
 
-class MySubmissions : AppCompatActivity() {
+class MySubmissions : MenuCommon() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //findViewById<ListView>(R.id.WaitTimeList)
