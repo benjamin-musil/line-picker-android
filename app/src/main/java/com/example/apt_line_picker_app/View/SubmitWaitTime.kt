@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.apt_line_picker_app.R
@@ -14,28 +15,19 @@ import org.json.JSONObject
 
 class SubmitWaitTime : AppCompatActivity() {
 
-    companion object {
-        const val restaurantId = ""
-        const val token = ""
-    }
-
-    var bleh = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.apt_line_picker_app.R.layout.activity_submit_wait_time)
+        setContentView(R.layout.activity_submit_wait_time)
     }
 
 
     fun daRealRealSubmit(view: View) {
-
         val extras = intent.extras
         var params = HashMap<String, String>()
 
-
         params["Id"] = extras!!.getString("restaurantId").toString()
 
-        var editText = findViewById<EditText>(com.example.apt_line_picker_app.R.id.waitTimeNumber2)
+        var editText = findViewById<EditText>(R.id.waitTimeNumber2)
         params["wait"] = editText.text.toString()
 
 
@@ -59,6 +51,7 @@ class SubmitWaitTime : AppCompatActivity() {
                 return headers
             }
         }
+        jsonObjReq.setRetryPolicy(DefaultRetryPolicy(15000,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT))
 
         // Access the RequestQueue through your singleton class.
         UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
