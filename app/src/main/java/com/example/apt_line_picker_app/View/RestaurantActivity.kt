@@ -26,8 +26,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.*
-import com.example.apt_line_picker_app.UserSettings
-import com.example.apt_line_picker_app.View.ui.submitwait.SubmitWaitFragment
 import com.squareup.picasso.Picasso
 
 
