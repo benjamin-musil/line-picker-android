@@ -1,6 +1,7 @@
 package com.example.apt_line_picker_app.View
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.volley.AuthFailureError
@@ -12,15 +13,6 @@ import com.example.apt_line_picker_app.Utils.Util
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.activity_firebase.*
 import kotlinx.android.synthetic.main.activity_restaurant.*
-import android.R.attr.data
-import android.R.attr.height
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
-import org.json.JSONArray
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.util.Log
 import com.google.gson.reflect.TypeToken
 import kotlin.reflect.typeOf
 import com.google.gson.*
@@ -34,21 +26,24 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.*
+import com.example.apt_line_picker_app.UserSettings
+import com.example.apt_line_picker_app.View.ui.submitwait.SubmitWaitFragment
 import com.squareup.picasso.Picasso
-import com.synnapps.carouselview.ImageListener
-import java.io.InputStream
-import java.net.URI
-import java.net.URL
+
 
 
 class RestaurantActivity : AppCompatActivity() {
+
+    var restaurantId = ""
+    var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.apt_line_picker_app.R.layout.activity_restaurant)
         val account = GoogleSignIn.getLastSignedInAccount(this)
-        val token = account!!.idToken
-        getRestaurant("5d97e5b9448ed112c9660b00", token!!, this)
+        token = account!!.idToken!!
+        restaurantId = "5d97e5b9448ed112c9660b00"
+        getRestaurant(restaurantId, token!!, this)
     }
 
     fun getRestaurant(id: String, idToken:String, context: Context){
@@ -120,16 +115,28 @@ class RestaurantActivity : AppCompatActivity() {
     }
 
     fun fillScrollView(restaurant: Restaurant, context: Context) {
-        var pictureView:LinearLayout = findViewById(R.id.imageHost)
+        var pictureView:LinearLayout = findViewById(com.example.apt_line_picker_app.R.id.imageHost)
         var picasso = Picasso.with(this)
         for(image in restaurant.images) {
             var newImage = ImageView(context)
             picasso
-                .load(image).fit().placeholder(R.drawable.picasso)
+                .load(image).fit().placeholder(com.example.apt_line_picker_app.R.drawable.picasso)
                 .into(newImage)
             pictureView.addView(newImage)
         }
     }
 
+    fun submitWaitTime(view: View){
+        val submitIntent = Intent(this, SubmitWaitTime::class.java)
+
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        token = account!!.idToken!!
+        val extras = Bundle()
+        extras.putString("restaurantId", "5d97e5b9448ed112c9660b00")
+        extras.putString("token", token)
+        submitIntent.putExtras(extras)
+
+        startActivity(submitIntent)
+    }
 
 }
