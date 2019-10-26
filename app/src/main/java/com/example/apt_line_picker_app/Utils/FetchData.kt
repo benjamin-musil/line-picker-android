@@ -1,50 +1,38 @@
-package com.example.apt_line_picker_app
+package com.example.apt_line_picker_app.Utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.LruCache
+import com.android.volley.AuthFailureError
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.Response
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.apt_line_picker_app.UserSettings
+import com.example.apt_line_picker_app.Model.Restaurant
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_my_submissions.*
-import java.net.CookieHandler
-import android.R.string.no
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.util.Log
-import com.android.volley.*
+import kotlinx.android.synthetic.main.activity_user_settings.*
 
 
-class MySubmissions : AppCompatActivity() {
+class Util{
+    fun getRestaurant(id: String, idToken:String, context: Context){
+        var restaurant = Restaurant(id)
+        val url = "http://10.0.2.2:5000/mobile/restaurant/${restaurant.id}"
+        val token = idToken
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_submissions)
-        //setSupportActionBar(findViewById(R.id.my_toolbar))
-        getData()
-    }
-
-    fun getData() {
-
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        val token = account!!.idToken
-        val currentuser = FirebaseAuth.getInstance().currentUser!!.displayName
-        val gooduid = currentuser!!.replace(" ", "_")
-        val url = "http://10.0.2.2:5000/mobile/"+gooduid+"/mysubmissions"
-        val jsonObjReq = object : JsonObjectRequest(Method.GET,
+        val jsonObjReq = object : JsonObjectRequest(
+            Method.GET,
             url, null,
             Response.Listener { response ->
-                textView3.text = "Response: %s".format(response.toString())
+                restaurant.address = response["address"].toString()
+                restaurant.name = response["name"].toString()
+//                restaurant.wait_times = listOf(response["wait_times"].toString())
+
             },
             Response.ErrorListener { error ->
-                textView3.text = error.toString()
+                error.toString()
             }) {
             /** Passing some request headers*  */
             @Throws(AuthFailureError::class)
@@ -55,9 +43,11 @@ class MySubmissions : AppCompatActivity() {
                 return headers
             }
         }
+
         // Access the RequestQueue through your singleton class.
-        MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
+        MySingleton.getInstance(context).addToRequestQueue(jsonObjReq)
     }
+
 
     class MySingleton constructor(context: Context) {
         companion object {
@@ -91,5 +81,5 @@ class MySubmissions : AppCompatActivity() {
             requestQueue.add(req)
         }
     }
-
 }
+

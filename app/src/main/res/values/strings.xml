@@ -3,4 +3,6 @@
     <string name="user">user</string>
     <string name="default_web_key">414582689858-4nf9h85b8flr8utia3dhsstm6ke89ajo.apps.googleusercontent.com</string>
     <string name="error"></string>
+    <string name="restaurant_name">RESTAURANT NAME</string>
+    <string name="restaurant_address">RESTAURANT ADDRESS</string>
 </resources>
