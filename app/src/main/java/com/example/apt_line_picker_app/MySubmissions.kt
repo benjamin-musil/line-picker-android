@@ -5,9 +5,6 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.LruCache
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
@@ -16,18 +13,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_user_settings.*
 import java.net.CookieHandler
-import com.android.volley.AuthFailureError
 import android.R.string.no
 import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
-
-
-
-
+import com.android.volley.*
 
 
 class MySubmissions : AppCompatActivity() {
