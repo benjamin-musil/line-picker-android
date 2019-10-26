@@ -75,47 +75,50 @@
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/Tacos"
             android:text="Tacos" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/Chinese"
             android:text="Chinese" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/Mexican"
             android:text="Mexican" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/Italian"
             android:text="Italian" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/Burger"
             android:text="Burger" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Taco" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/Breakfast"
             android:text="Breakfast" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/Pizza"
             android:text="Pizza" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Noodes" />
+            android:id="@+id/Noodles"
+            android:text="Noodles" />
     </RadioGroup>
 
     <Button
@@ -125,6 +128,7 @@
         android:layout_marginLeft="0dp"
         android:background="#4CAF50"
         android:text="Add restaurant"
+        android:onClick="submitRestaurant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

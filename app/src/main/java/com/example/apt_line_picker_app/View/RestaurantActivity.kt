@@ -40,7 +40,11 @@ class RestaurantActivity : AppCompatActivity() {
         setContentView(com.example.apt_line_picker_app.R.layout.activity_restaurant)
         val account = GoogleSignIn.getLastSignedInAccount(this)
         token = account!!.idToken!!
-        restaurantId = "5d97e5b9448ed112c9660b00"
+
+        val extras = intent.extras
+
+
+        restaurantId = extras?.getString("restaurantId") ?: "5db48d1a4d183fdcb32f8230"
         getRestaurant(restaurantId, token!!, this)
     }
 
@@ -89,27 +93,38 @@ class RestaurantActivity : AppCompatActivity() {
 
     fun updateRestaurantTable(restaurant: Restaurant){
         val tl = findViewById(com.example.apt_line_picker_app.R.id.waitTimes) as TableLayout
-        for(submission in restaurant.wait_times){
+        if (restaurant.wait_times != null) {
+            for(submission in restaurant.wait_times){
+                val tr1 = TableRow(this)
+
+                val timeTextView = TextView(this)
+                timeTextView.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                timeTextView.text = submission[0]
+
+                val submissionTextView = TextView(this)
+                submissionTextView.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                submissionTextView.text = submission[1]
+
+                val reportedByTextView = TextView(this)
+                reportedByTextView.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                reportedByTextView.text = submission[2]
+
+                tr1.addView(timeTextView)
+                tr1.addView(submissionTextView)
+                tr1.addView(reportedByTextView)
+
+                tl.addView(tr1)
+            }
+        } else {
             val tr1 = TableRow(this)
 
             val timeTextView = TextView(this)
             timeTextView.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-            timeTextView.text = submission[0]
-
-            val submissionTextView = TextView(this)
-            submissionTextView.textAlignment = View.TEXT_ALIGNMENT_CENTER
-            submissionTextView.text = submission[1]
-
-            val reportedByTextView = TextView(this)
-            reportedByTextView.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-            reportedByTextView.text = submission[2]
-
+            timeTextView.text = "No submissions yet"
             tr1.addView(timeTextView)
-            tr1.addView(submissionTextView)
-            tr1.addView(reportedByTextView)
-
             tl.addView(tr1)
         }
+
     }
 
     fun fillScrollView(restaurant: Restaurant, context: Context) {
@@ -130,7 +145,7 @@ class RestaurantActivity : AppCompatActivity() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         token = account!!.idToken!!
         val extras = Bundle()
-        extras.putString("restaurantId", "5d97e5b9448ed112c9660b00")
+        extras.putString("restaurantId", restaurantId)
         extras.putString("token", token)
         submitIntent.putExtras(extras)
 
