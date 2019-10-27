@@ -5,5 +5,5 @@ class Restaurant(val id:String) {
     var name:String = ""
     var wait_times:List<List<String>> = emptyList<List<String>>()
     var images: List<String> = emptyList<String>()
-    var category: String = ""
+    var geolocation:String = ""
 }

@@ -19,10 +19,6 @@ import java.net.CookieHandler
 import com.android.volley.AuthFailureError
 
 
-
-
-
-
 class UserSettings : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +29,7 @@ class UserSettings : AppCompatActivity() {
     }
 
     fun getData() {
-        val url = "http://10.0.2.2:5000/mobile/user-settings"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/user-settings"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken

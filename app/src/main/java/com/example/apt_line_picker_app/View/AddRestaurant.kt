@@ -31,7 +31,7 @@ class AddRestaurant : AppCompatActivity() {
         val token = account!!.idToken
 
 
-        val url = "http://10.0.2.2:5000/mobile/submit-restaurant"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/submit-restaurant"
         val address:String = findViewById<EditText>(com.example.apt_line_picker_app.R.id.RestaurantAddress).text.toString()
         val name:String = findViewById<EditText>(com.example.apt_line_picker_app.R.id.RestaurantName).text.toString()
         val category:String = findViewById<RadioButton>(findViewById<RadioGroup>(com.example.apt_line_picker_app.R.id.RestaurantCategory).checkedRadioButtonId).text.toString()

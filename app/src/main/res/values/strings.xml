@@ -5,4 +5,5 @@
     <string name="error"></string>
     <string name="restaurant_name">RESTAURANT NAME</string>
     <string name="restaurant_address">RESTAURANT ADDRESS</string>
+    <string name="title_activity_recent_reports">Map</string>
 </resources>
