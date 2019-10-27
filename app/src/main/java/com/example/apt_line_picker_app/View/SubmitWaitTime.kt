@@ -2,11 +2,14 @@ package com.example.apt_line_picker_app.View
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -22,6 +25,8 @@ import org.json.JSONObject
 class SubmitWaitTime : AppCompatActivity() {
     // Track if location access has been granted and create location object
     companion object {
+        private const val CAMERA_PERMISSION_REQUEST_CODE = 1
+        private const val REQUEST_IMAGE_CAPTURE = 1
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
         private lateinit var lastLocation: Location
     }
@@ -35,7 +40,29 @@ class SubmitWaitTime : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
+    // Camera stuff here
+    fun takePicture(view: View) {
+        checkCameraPermission()
+        dispatchTakePictureIntent()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            findViewById<ImageView>(R.id.cameraImage).setImageBitmap(imageBitmap)
+        }
+    }
+
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
+    }
+
     fun clickSubmit(view: View) {
+        // If user does not allow location, do not allow wait time submission
         checkLocationPermission()
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
             val extras = intent.extras
@@ -72,7 +99,7 @@ class SubmitWaitTime : AppCompatActivity() {
                     return headers
                 }
             }
-            jsonObjReq.retryPolicy = DefaultRetryPolicy(15000,1,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            jsonObjReq.retryPolicy = DefaultRetryPolicy(15000,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
             // Access the RequestQueue through your singleton class.
             UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
@@ -88,4 +115,16 @@ class SubmitWaitTime : AppCompatActivity() {
             return
         }
     }
+
+    private fun checkCameraPermission() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) !=
+            PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
+            return
+        }
+    }
+
+
 }
