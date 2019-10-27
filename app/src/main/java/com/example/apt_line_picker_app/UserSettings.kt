@@ -33,7 +33,7 @@ class UserSettings : AppCompatActivity() {
     }
 
     fun getData() {
-        val url = "http://10.0.2.2:5000/mobile/user-settings"
+        val url = "http://127.0.0.1:5000/mobile/user-settings"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
