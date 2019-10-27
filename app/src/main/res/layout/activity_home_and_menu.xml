@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2196F3"
+    tools:context=".HomeAndMenu">
+
+    <Button
+        android:id="@+id/SearchRestaurant"
+        android:onClick="SearchRestaurant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#4CAF50"
+        android:text="Search Restaurant"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <Button
+        android:id="@+id/AddRestaurant"
+        android:onClick="AddRestaurant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#4CAF50"
+        android:text="Add A Restaurant"
+        app:layout_constraintBottom_toTopOf="@id/Submissions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/SearchRestaurant"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <Button
+        android:id="@+id/Submissions"
+        android:onClick="MySubmissions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#4CAF50"
+        android:text="My Submissions"
+        app:layout_constraintBottom_toTopOf="@id/Settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AddRestaurant"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <Button
+        android:id="@+id/Settings"
+        android:onClick="Settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#4CAF50"
+        android:text="Settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Submissions"
+        app:layout_constraintVertical_bias="0.15"
+
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
