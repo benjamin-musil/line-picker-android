@@ -17,6 +17,7 @@ import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
@@ -30,11 +31,16 @@ class FirebaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         auth = FirebaseAuth.getInstance()
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_firebase)
+        var signInButton = findViewById<SignInButton>(R.id.sign_in_button);
+        signInButton.setOnClickListener {
+            signin()
+        }
     }
 
     // Button press does the sign in
-    fun signin(view: View) {
+    fun signin() {
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
