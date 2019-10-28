@@ -32,7 +32,6 @@ class MySubmissions : MenuCommon() {
     }
 
     fun getData() {
-
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
         val currentuser = FirebaseAuth.getInstance().currentUser!!.displayName
