@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.apt_line_picker_app.View.AddRestaurant
+import kotlinx.android.synthetic.main.activity_home_and_menu.view.*
 
 class HomeAndMenu : MenuCommon() {
 
@@ -17,7 +19,7 @@ class HomeAndMenu : MenuCommon() {
     }
     fun AddRestaurant(view:View) {
 
-        val AddRestaurantIntent=Intent(this,AddRestaurant::class.java)
+        val AddRestaurantIntent=Intent(this, AddRestaurant::class.java)
         startActivity(AddRestaurantIntent)
     }
     fun MySubmissions(view:View)

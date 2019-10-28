@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         if (account != null && FirebaseAuth.getInstance().currentUser != null) {
             findViewById<TextView>(R.id.user).text = account!!.email.toString()
-            startActivity(Intent(this, UserSettings::class.java))
+            startActivity(Intent(this, HomeAndMenu::class.java))
         } else {
             startActivity(Intent(this, FirebaseActivity::class.java))
         }

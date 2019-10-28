@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.apt_line_picker_app.View.AddRestaurant
 
 
 abstract class MenuCommon: AppCompatActivity() {
@@ -29,7 +30,7 @@ abstract class MenuCommon: AppCompatActivity() {
                 return true
             }
             R.id.action_addRestuarrant -> {
-                val AddRestaurantIntent= Intent(this,AddRestaurant::class.java)
+                val AddRestaurantIntent= Intent(this, AddRestaurant::class.java)
                 startActivity(AddRestaurantIntent)
                 return true
             }
