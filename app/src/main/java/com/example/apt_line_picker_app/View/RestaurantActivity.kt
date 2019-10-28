@@ -26,6 +26,9 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.*
+import com.example.apt_line_picker_app.FirebaseActivity
+import com.example.apt_line_picker_app.MainActivity
+import com.example.apt_line_picker_app.UserSettings
 import com.squareup.picasso.Picasso
 
 
@@ -37,6 +40,7 @@ class RestaurantActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkToken()
         setContentView(com.example.apt_line_picker_app.R.layout.activity_restaurant)
         val account = GoogleSignIn.getLastSignedInAccount(this)
         token = account!!.idToken!!
@@ -151,5 +155,32 @@ class RestaurantActivity : AppCompatActivity() {
 
         startActivity(submitIntent)
     }
+
+    fun checkToken() {
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        val token = account!!.idToken
+
+        val url = "http://10.0.2.2:5000/mobile/verify-token"
+
+        val jsonObjReq = object : JsonObjectRequest(
+            Method.GET,
+            url, null,
+            Response.Listener { response ->
+            },
+            Response.ErrorListener { error ->
+                startActivity(Intent(this, FirebaseActivity::class.java))
+            }) {
+            /** Passing some request headers*  */
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers.put("Content-Type", "application/json")
+                headers.put("token", token!!)
+                return headers
+            }
+        }
+        UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
+    }
+
 
 }
