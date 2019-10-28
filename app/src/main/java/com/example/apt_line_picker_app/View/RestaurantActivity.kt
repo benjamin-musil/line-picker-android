@@ -8,7 +8,6 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.apt_line_picker_app.Model.Restaurant
-import com.example.apt_line_picker_app.R
 import com.example.apt_line_picker_app.Utils.Util
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.activity_firebase.*
@@ -26,14 +25,12 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.*
-import com.example.apt_line_picker_app.FirebaseActivity
-import com.example.apt_line_picker_app.MainActivity
-import com.example.apt_line_picker_app.UserSettings
+import com.example.apt_line_picker_app.*
 import com.squareup.picasso.Picasso
 
 
 
-class RestaurantActivity : AppCompatActivity() {
+class RestaurantActivity : MenuCommon()  {
 
     var restaurantId = ""
     var token = ""

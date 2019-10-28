@@ -13,15 +13,18 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
+import com.example.apt_line_picker_app.FirebaseActivity
+import com.example.apt_line_picker_app.MenuCommon
 import com.example.apt_line_picker_app.UserSettings
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import org.json.JSONObject
 
 
-class AddRestaurant : AppCompatActivity() {
+class AddRestaurant : MenuCommon() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkToken()
         setContentView(com.example.apt_line_picker_app.R.layout.activity_add_restaurant)
     }
 
@@ -75,6 +78,32 @@ class AddRestaurant : AppCompatActivity() {
         UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
 
 
+    }
+
+    fun checkToken() {
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        val token = account!!.idToken
+
+        val url = "http://10.0.2.2:5000/mobile/verify-token"
+
+        val jsonObjReq = object : JsonObjectRequest(
+            Method.GET,
+            url, null,
+            Response.Listener { response ->
+            },
+            Response.ErrorListener { error ->
+                startActivity(Intent(this, FirebaseActivity::class.java))
+            }) {
+            /** Passing some request headers*  */
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers.put("Content-Type", "application/json")
+                headers.put("token", token!!)
+                return headers
+            }
+        }
+        UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
 
 
