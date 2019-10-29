@@ -34,10 +34,10 @@ class UserSettings : MenuCommon() {
         checkToken()
         setContentView(R.layout.activity_user_settings)
         getCategoryData(this)
-         getData(this)
+        getData(this)
     }
 
-    fun getData(context:Context) {
+    fun getData(context: Context) {
         val url = "http://10.0.2.2:5000/mobile/user-settings"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
@@ -46,15 +46,15 @@ class UserSettings : MenuCommon() {
         val jsonObjReq = object : JsonObjectRequest(Method.GET,
             url, null,
             Response.Listener { response ->
-               run {
-                    textView2.visibility= View.INVISIBLE
+                run {
+                    textView2.visibility = View.INVISIBLE
                     val user = jsonToUser(response["user"].toString())
                     fillUserSettings(user, context)
                 }
             },
             Response.ErrorListener { error ->
                 {
-                    textView2.visibility= View.VISIBLE
+                    textView2.visibility = View.VISIBLE
                     textView2.text = error.toString()
                 }
             }) {
@@ -71,7 +71,8 @@ class UserSettings : MenuCommon() {
         // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
-    fun getCategoryData(context:Context) {
+
+    fun getCategoryData(context: Context) {
         val url = "http://10.0.2.2:5000/mobile/get-all-categories"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
@@ -80,15 +81,14 @@ class UserSettings : MenuCommon() {
         val jsonObjReq = object : JsonArrayRequest(Method.GET,
             url, null,
             Response.Listener { response ->
-               // textView2.text = "Response: %s".format(response.toString())
-                AddControls(response,this)
+                // textView2.text = "Response: %s".format(response.toString())
+                AddControls(response, this)
 
                 // restaurantName.text = response["name"].toString()
             },
             Response.ErrorListener { error ->
                 textView2.text = error.toString()
-            })
-        {
+            }) {
             /** Passing some request headers*  */
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
@@ -102,20 +102,21 @@ class UserSettings : MenuCommon() {
         // Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
-    fun AddControls(  categories:JSONArray ,context:Context)
-    {
-        for ( i in 0 until categories.length()  ) {
-            val categoryradiobutton=RadioButton(this)
-            categoryradiobutton.text=categories[i].toString()
+
+    fun AddControls(categories: JSONArray, context: Context) {
+        for (i in 0 until categories.length()) {
+            val categoryradiobutton = RadioButton(this)
+            categoryradiobutton.text = categories[i].toString()
             RestaurantCategory.addView(categoryradiobutton)
         }
     }
 
     fun jsonToUser(response: String): User {
         val user = Gson().fromJson(response.toString(), User::class.java)
-   return user;
+        return user;
     }
-    fun jsonToArray(response: JsonArray):JsonArray {
+
+    fun jsonToArray(response: JsonArray): JsonArray {
         val gson = GsonBuilder().create()
         val listType2 = object : TypeToken<JsonArray>() {
         }.type
@@ -123,75 +124,75 @@ class UserSettings : MenuCommon() {
         return gson.fromJson<JsonArray>(response.toString(), listType2)
     }
 
-    fun fillUserSettings(user:User,context:Context)
- {
-     //val Header = findViewById(com.example.apt_line_picker_app.R.id.Header) as TextView
-     Header.text = user.user_id.toString()
-     EmailId.text=user.email.toString()
-     for(i in 1 until  RestaurantCategory.childCount)
-     {
-         val id= RestaurantCategory.getChildAt(i).getId()
-         val category= findViewById<RadioButton>(id)
-         if(category.text==user.favorite_food) {
-             category.isChecked=true
-         }
-
-     }
-     //CurrentSelection.text=  user.favorite_food?.toString()
- }
-fun saveUserSettings(view:View)
-{
-    val account = GoogleSignIn.getLastSignedInAccount(this)
-    val token = account!!.idToken
-    //RestaurantCategoryLabel.text=RestaurantCategory.checkedRadioButtonId.toString()
-    val idSelected=RestaurantCategory.checkedRadioButtonId
-    if(idSelected!=-1) {
-        val radio: RadioButton = findViewById(idSelected)
-        val url = "http://10.0.2.2:5000/mobile/update-user"
-        val category: String = radio.text.toString()
-        var params = HashMap<String, String>()
-        params.put("category", category)
-
-
-        val jsonObjReq = object : JsonObjectRequest(
-            Method.POST,
-            url, JSONObject(params.toMap()),
-            Response.Listener { response ->
-                Toast.makeText(
-                    applicationContext,
-                    "Category Changed To " + radio.text,
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
-            Response.ErrorListener { error ->
-                Log.d(null, error.toString())
-//                startActivity(Intent(this, RestaurantActivity::class.java))
-            }) {
-            /** Passing some request headers*  */
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val headers = HashMap<String, String>()
-                headers.put("Content-Type", "application/json")
-                headers.put("token", token!!)
-                return headers
+    fun fillUserSettings(user: User, context: Context) {
+        //val Header = findViewById(com.example.apt_line_picker_app.R.id.Header) as TextView
+        Header.text = user.user_id.toString()
+        EmailId.text = user.email.toString()
+        for (i in 1 until RestaurantCategory.childCount) {
+            val id = RestaurantCategory.getChildAt(i).getId()
+            val category = findViewById<RadioButton>(id)
+            if (category.text == user.favorite_food) {
+                category.isChecked = true
             }
-        }
-        jsonObjReq.setRetryPolicy(
-            DefaultRetryPolicy(
-                15000, 1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-        )
 
-        // Access the RequestQueue through your singleton class.
-        UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
+        }
+        //CurrentSelection.text=  user.favorite_food?.toString()
     }
 
-}
+    fun saveUserSettings(view: View) {
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        val token = account!!.idToken
+        //RestaurantCategoryLabel.text=RestaurantCategory.checkedRadioButtonId.toString()
+        val idSelected = RestaurantCategory.checkedRadioButtonId
+        if (idSelected != -1) {
+            val radio: RadioButton = findViewById(idSelected)
+            val url = "http://10.0.2.2:5000/mobile/update-user"
+            val category: String = radio.text.toString()
+            var params = HashMap<String, String>()
+            params.put("category", category)
+
+
+            val jsonObjReq = object : JsonObjectRequest(
+                Method.POST,
+                url, JSONObject(params.toMap()),
+                Response.Listener { response ->
+                    Toast.makeText(
+                        applicationContext,
+                        "Category Changed To " + radio.text,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                Response.ErrorListener { error ->
+                    Log.d(null, error.toString())
+//                startActivity(Intent(this, RestaurantActivity::class.java))
+                }) {
+                /** Passing some request headers*  */
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers.put("Content-Type", "application/json")
+                    headers.put("token", token!!)
+                    return headers
+                }
+            }
+            jsonObjReq.setRetryPolicy(
+                DefaultRetryPolicy(
+                    15000, 1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+            )
+
+            // Access the RequestQueue through your singleton class.
+            UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
+        }
+
+    }
+
     class MySingleton constructor(context: Context) {
         companion object {
             @Volatile
             private var INSTANCE: MySingleton? = null
+
             fun getInstance(context: Context) =
                 INSTANCE ?: synchronized(this) {
                     INSTANCE ?: MySingleton(context).also {
@@ -199,6 +200,7 @@ fun saveUserSettings(view:View)
                     }
                 }
         }
+
         val imageLoader: ImageLoader by lazy {
             ImageLoader(requestQueue,
                 object : ImageLoader.ImageCache {
@@ -206,6 +208,7 @@ fun saveUserSettings(view:View)
                     override fun getBitmap(url: String): Bitmap {
                         return cache.get(url)
                     }
+
                     override fun putBitmap(url: String, bitmap: Bitmap) {
                         cache.put(url, bitmap)
                     }
@@ -216,6 +219,7 @@ fun saveUserSettings(view:View)
             // Activity or BroadcastReceiver if someone passes one in.
             Volley.newRequestQueue(context.applicationContext)
         }
+
         fun <T> addToRequestQueue(req: Request<T>) {
             requestQueue.add(req)
         }
