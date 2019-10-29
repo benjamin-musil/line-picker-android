@@ -29,8 +29,7 @@ import com.example.apt_line_picker_app.*
 import com.squareup.picasso.Picasso
 
 
-
-class RestaurantActivity : MenuCommon()  {
+class RestaurantActivity : MenuCommon() {
 
     var restaurantId = ""
     var token = ""
@@ -49,7 +48,7 @@ class RestaurantActivity : MenuCommon()  {
         getRestaurant(restaurantId, token!!, this)
     }
 
-    fun getRestaurant(id: String, idToken:String, context: Context){
+    fun getRestaurant(id: String, idToken: String, context: Context) {
         var restaurant = Restaurant(id)
         val url = "http://10.0.2.2:5000/mobile/restaurant/${restaurant.id}"
         val token = idToken
@@ -83,7 +82,7 @@ class RestaurantActivity : MenuCommon()  {
     }
 
 
-    fun jsonToRestaurant(response: JSONObject):Restaurant {
+    fun jsonToRestaurant(response: JSONObject): Restaurant {
         val gson = GsonBuilder().create()
         val listType2 = object : TypeToken<Restaurant>() {
         }.type
@@ -92,10 +91,10 @@ class RestaurantActivity : MenuCommon()  {
     }
 
 
-    fun updateRestaurantTable(restaurant: Restaurant){
+    fun updateRestaurantTable(restaurant: Restaurant) {
         val tl = findViewById(com.example.apt_line_picker_app.R.id.waitTimes) as TableLayout
         if (restaurant.wait_times != null) {
-            for(submission in restaurant.wait_times){
+            for (submission in restaurant.wait_times) {
                 val tr1 = TableRow(this)
 
                 val timeTextView = TextView(this)
@@ -129,9 +128,9 @@ class RestaurantActivity : MenuCommon()  {
     }
 
     fun fillScrollView(restaurant: Restaurant, context: Context) {
-        var pictureView:LinearLayout = findViewById(com.example.apt_line_picker_app.R.id.imageHost)
+        var pictureView: LinearLayout = findViewById(com.example.apt_line_picker_app.R.id.imageHost)
         var picasso = Picasso.with(this)
-        for(image in restaurant.images) {
+        for (image in restaurant.images) {
             var newImage = ImageView(context)
             picasso
                 .load(image).fit().placeholder(com.example.apt_line_picker_app.R.drawable.picasso)
@@ -140,7 +139,7 @@ class RestaurantActivity : MenuCommon()  {
         }
     }
 
-    fun submitWaitTime(view: View){
+    fun submitWaitTime(view: View) {
         val submitIntent = Intent(this, SubmitWaitTime::class.java)
 
         val account = GoogleSignIn.getLastSignedInAccount(this)

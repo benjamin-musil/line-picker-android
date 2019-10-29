@@ -81,10 +81,7 @@ class UserSettings : MenuCommon() {
         val jsonObjReq = object : JsonArrayRequest(Method.GET,
             url, null,
             Response.Listener { response ->
-                // textView2.text = "Response: %s".format(response.toString())
                 AddControls(response, this)
-
-                // restaurantName.text = response["name"].toString()
             },
             Response.ErrorListener { error ->
                 textView2.text = error.toString()
@@ -116,16 +113,7 @@ class UserSettings : MenuCommon() {
         return user;
     }
 
-    fun jsonToArray(response: JsonArray): JsonArray {
-        val gson = GsonBuilder().create()
-        val listType2 = object : TypeToken<JsonArray>() {
-        }.type
-
-        return gson.fromJson<JsonArray>(response.toString(), listType2)
-    }
-
     fun fillUserSettings(user: User, context: Context) {
-        //val Header = findViewById(com.example.apt_line_picker_app.R.id.Header) as TextView
         Header.text = user.user_id.toString()
         EmailId.text = user.email.toString()
         for (i in 1 until RestaurantCategory.childCount) {
@@ -136,13 +124,11 @@ class UserSettings : MenuCommon() {
             }
 
         }
-        //CurrentSelection.text=  user.favorite_food?.toString()
     }
 
     fun saveUserSettings(view: View) {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
-        //RestaurantCategoryLabel.text=RestaurantCategory.checkedRadioButtonId.toString()
         val idSelected = RestaurantCategory.checkedRadioButtonId
         if (idSelected != -1) {
             val radio: RadioButton = findViewById(idSelected)
@@ -164,7 +150,6 @@ class UserSettings : MenuCommon() {
                 },
                 Response.ErrorListener { error ->
                     Log.d(null, error.toString())
-//                startActivity(Intent(this, RestaurantActivity::class.java))
                 }) {
                 /** Passing some request headers*  */
                 @Throws(AuthFailureError::class)
@@ -200,20 +185,6 @@ class UserSettings : MenuCommon() {
                     }
                 }
         }
-
-        val imageLoader: ImageLoader by lazy {
-            ImageLoader(requestQueue,
-                object : ImageLoader.ImageCache {
-                    private val cache = LruCache<String, Bitmap>(20)
-                    override fun getBitmap(url: String): Bitmap {
-                        return cache.get(url)
-                    }
-
-                    override fun putBitmap(url: String, bitmap: Bitmap) {
-                        cache.put(url, bitmap)
-                    }
-                })
-        }
         val requestQueue: RequestQueue by lazy {
             // applicationContext is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
@@ -248,7 +219,7 @@ class UserSettings : MenuCommon() {
                 return headers
             }
         }
-        UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
 
 }

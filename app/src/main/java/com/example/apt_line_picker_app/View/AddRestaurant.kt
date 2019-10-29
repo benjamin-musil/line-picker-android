@@ -28,16 +28,19 @@ class AddRestaurant : MenuCommon() {
         setContentView(com.example.apt_line_picker_app.R.layout.activity_add_restaurant)
     }
 
-    fun submitRestaurant(view: View){
+    fun submitRestaurant(view: View) {
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
 
         val url = "http://10.0.2.2:5000/mobile/submit-restaurant"
-        val address:String = findViewById<EditText>(com.example.apt_line_picker_app.R.id.RestaurantAddress).text.toString()
-        val name:String = findViewById<EditText>(com.example.apt_line_picker_app.R.id.RestaurantName).text.toString()
-        val category:String = findViewById<RadioButton>(findViewById<RadioGroup>(com.example.apt_line_picker_app.R.id.RestaurantCategory).checkedRadioButtonId).text.toString()
+        val address: String =
+            findViewById<EditText>(com.example.apt_line_picker_app.R.id.RestaurantAddress).text.toString()
+        val name: String =
+            findViewById<EditText>(com.example.apt_line_picker_app.R.id.RestaurantName).text.toString()
+        val category: String =
+            findViewById<RadioButton>(findViewById<RadioGroup>(com.example.apt_line_picker_app.R.id.RestaurantCategory).checkedRadioButtonId).text.toString()
 
         var params = HashMap<String, String>()
         params.put("Address", address)
@@ -58,8 +61,7 @@ class AddRestaurant : MenuCommon() {
             Response.ErrorListener { error ->
                 Log.d(null, error.toString())
 //                startActivity(Intent(this, RestaurantActivity::class.java))
-            })
-        {
+            }) {
             /** Passing some request headers*  */
             @Throws(AuthFailureError::class)
             override fun getHeaders(): Map<String, String> {
@@ -70,8 +72,10 @@ class AddRestaurant : MenuCommon() {
             }
         }
         jsonObjReq.setRetryPolicy(
-            DefaultRetryPolicy(15000,1,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            DefaultRetryPolicy(
+                15000, 1,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
         )
 
         // Access the RequestQueue through your singleton class.
