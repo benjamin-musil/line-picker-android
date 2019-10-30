@@ -3,16 +3,17 @@ package com.example.apt_line_picker_app.View
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.location.Location
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.os.FileUtils
 import android.provider.MediaStore
 import android.view.View
 import android.widget.EditText
-import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.android.volley.AuthFailureError
@@ -25,7 +26,6 @@ import com.example.apt_line_picker_app.UserSettings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_submit_wait_time.*
 import org.json.JSONObject
 import java.io.File
@@ -57,9 +57,9 @@ class SubmitWaitTime : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
-    // Camera stuff here
     lateinit var currentPhotoPath: String
 
+    // Create image file name and store path before taking picture
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
@@ -75,32 +75,22 @@ class SubmitWaitTime : AppCompatActivity() {
         }
     }
 
+    // Go here when clicking on the add image button
     fun takePicture(view: View) {
         checkCameraPermission()
         dispatchTakePictureIntent()
     }
 
+    // Display image preview after taking picture
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             Glide.with(this).load(currentPhotoPath).into(cameraImage)
-//            Picasso.with(this).setIndicatorsEnabled(true)
-//            var test = Picasso.with(this).isLoggingEnabled
-//            Picasso.with(this)
-//                .load(currentPhotoPath)
-//                .resize(130, 50)
-//                .centerCrop()
-//                .into(findViewById<ImageView>(R.id.cameraImage)
-//            )
-//            Picasso.with(this).load("https://i2.wp.com/www.scottcoulthard.com/wp-content/uploads/2016/10/IMG_1816.jpg?resize=251%2C250").resize(130, 50)
-//                .centerCrop().into(findViewById<ImageView>(R.id.cameraImage))
-            //"/Android/data/com.example.apt_line_picker_app/files/Pictures/JPEG_20191027_151922_6109619014508195945.jpg"
-            //val imageBitmap = data?.extras?.get("data") as Bitmap
-            //findViewById<ImageView>(R.id.cameraImage).setImageBitmap(imageBitmap)
         }
     }
 
+    // Route to device hardware to get intent to take picture with camera
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
@@ -127,7 +117,16 @@ class SubmitWaitTime : AppCompatActivity() {
         }
     }
 
+    // Encode image to Base64
+    // https://grokonez.com/kotlin/kotlin-encode-decode-fileimage-base64
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun encoder(filePath: String): String{
+        val bytes = File(filePath).readBytes()
+        val base64 = Base64.getEncoder().encodeToString(bytes)
+        return base64
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun clickSubmit(view: View) {
         // If user does not allow location, do not allow wait time submission
         checkLocationPermission()
@@ -145,6 +144,9 @@ class SubmitWaitTime : AppCompatActivity() {
                 lastLocation = location
                 params["geolocation"] = LatLng(location.latitude, location.longitude).toString()
             }
+
+            // Convert image to Base64 string for file upload
+            params["image64"] = encoder(currentPhotoPath)
 
             val url = "http://"+getString(R.string.local_ip)+":5000/mobile/submit-time"
             val jsonObjReq = object : JsonObjectRequest(
@@ -193,6 +195,4 @@ class SubmitWaitTime : AppCompatActivity() {
             return
         }
     }
-
-
 }
