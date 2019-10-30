@@ -30,15 +30,21 @@ class SubmitWaitTime : AppCompatActivity() {
         var editText = findViewById<EditText>(R.id.waitTimeNumber2)
         params["wait"] = editText.text.toString()
 
-
         val url = "http://10.0.2.2:5000/mobile/submit-time"
         val jsonObjReq = object : JsonObjectRequest(
             Method.POST,
             url, JSONObject(params.toMap()),
             Response.Listener { response ->
+                val restaurantIntent = Intent(this, RestaurantActivity::class.java)
+                val extras = Bundle()
+                extras.putString("restaurantId", response["id"].toString())
+                restaurantIntent.putExtras(extras)
                 startActivity(Intent(this, RestaurantActivity::class.java))
             },
             Response.ErrorListener { error ->
+                val restaurantIntent = Intent(this, RestaurantActivity::class.java)
+                val extras = Bundle()
+                restaurantIntent.putExtras(extras)
                 startActivity(Intent(this, RestaurantActivity::class.java))
             })
         {
