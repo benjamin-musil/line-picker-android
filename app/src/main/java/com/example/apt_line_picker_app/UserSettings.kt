@@ -53,10 +53,8 @@ class UserSettings : MenuCommon() {
                 }
             },
             Response.ErrorListener { error ->
-                {
-                    textView2.visibility = View.VISIBLE
-                    textView2.text = error.toString()
-                }
+                textView2.visibility = View.VISIBLE
+                textView2.text = error.toString()
             }) {
             /** Passing some request headers*  */
             @Throws(AuthFailureError::class)
@@ -81,7 +79,7 @@ class UserSettings : MenuCommon() {
         val jsonObjReq = object : JsonArrayRequest(Method.GET,
             url, null,
             Response.Listener { response ->
-                AddControls(response, this)
+                addCategories(response, this)
             },
             Response.ErrorListener { error ->
                 textView2.text = error.toString()
@@ -100,7 +98,7 @@ class UserSettings : MenuCommon() {
         MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
 
-    fun AddControls(categories: JSONArray, context: Context) {
+    fun addCategories(categories: JSONArray, context: Context) {
         for (i in 0 until categories.length()) {
             val categoryradiobutton = RadioButton(this)
             categoryradiobutton.text = categories[i].toString()
@@ -136,7 +134,6 @@ class UserSettings : MenuCommon() {
             val category: String = radio.text.toString()
             var params = HashMap<String, String>()
             params.put("category", category)
-
 
             val jsonObjReq = object : JsonObjectRequest(
                 Method.POST,
@@ -185,6 +182,7 @@ class UserSettings : MenuCommon() {
                     }
                 }
         }
+
         val requestQueue: RequestQueue by lazy {
             // applicationContext is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.

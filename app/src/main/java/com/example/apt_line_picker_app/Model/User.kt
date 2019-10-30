@@ -6,5 +6,10 @@ class User {
     var favorite_food:String=""
     var user_id:String=""
     var role:String=""
+}
 
+class UserSettings {
+    var user:String =""
+    var image_submissions:List<List<String>> = emptyList()
+    var wait_submissions:List<List<String>> = emptyList()
 }
