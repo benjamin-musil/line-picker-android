@@ -148,17 +148,23 @@ class SubmitWaitTime : AppCompatActivity() {
             // Convert image to Base64 string for file upload
             params["image64"] = encoder(currentPhotoPath)
 
-            val url = "http://"+getString(R.string.local_ip)+":5000/mobile/submit-time"
+            val url = "http://" + getString(R.string.local_ip) + ":5000/mobile/submit-time"
             val jsonObjReq = object : JsonObjectRequest(
                 Method.POST,
                 url, JSONObject(params.toMap()),
                 Response.Listener { response ->
+                    val restaurantIntent = Intent(this, RestaurantActivity::class.java)
+                    val extras = Bundle()
+                    extras.putString("restaurantId", response["id"].toString())
+                    restaurantIntent.putExtras(extras)
                     startActivity(Intent(this, RestaurantActivity::class.java))
                 },
                 Response.ErrorListener { error ->
+                    val restaurantIntent = Intent(this, RestaurantActivity::class.java)
+                    val extras = Bundle()
+                    restaurantIntent.putExtras(extras)
                     startActivity(Intent(this, RestaurantActivity::class.java))
-                })
-            {
+                }) {
                 /** Passing some request headers*  */
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
@@ -168,7 +174,13 @@ class SubmitWaitTime : AppCompatActivity() {
                     return headers
                 }
             }
-            jsonObjReq.retryPolicy = DefaultRetryPolicy(15000,0,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+            jsonObjReq.setRetryPolicy(
+                DefaultRetryPolicy(
+                    15000,
+                    1,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+            )
 
             // Access the RequestQueue through your singleton class.
             UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)

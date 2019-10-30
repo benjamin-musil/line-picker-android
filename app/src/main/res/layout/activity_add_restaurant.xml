@@ -72,53 +72,6 @@
             android:text="Restaurant Category"
             />
 
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/Tacos"
-            android:text="Tacos" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Chinese"
-            android:text="Chinese" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Mexican"
-            android:text="Mexican" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Italian"
-            android:text="Italian" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Burger"
-            android:text="Burger" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Breakfast"
-            android:text="Breakfast" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Pizza"
-            android:text="Pizza" />
-
-        <androidx.appcompat.widget.AppCompatRadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Noodles"
-            android:text="Noodles" />
     </RadioGroup>
 
     <Button

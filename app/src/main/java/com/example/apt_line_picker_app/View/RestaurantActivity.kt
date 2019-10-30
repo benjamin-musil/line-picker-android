@@ -8,7 +8,6 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.apt_line_picker_app.Model.Restaurant
-import com.example.apt_line_picker_app.R
 import com.example.apt_line_picker_app.Utils.Util
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import kotlinx.android.synthetic.main.activity_firebase.*
@@ -27,17 +26,18 @@ import android.net.Uri
 import android.view.View
 import android.widget.*
 import com.android.volley.DefaultRetryPolicy
+import com.example.apt_line_picker_app.*
 import com.squareup.picasso.Picasso
 
 
-
-class RestaurantActivity : AppCompatActivity() {
+class RestaurantActivity : MenuCommon() {
 
     var restaurantId = ""
     var token = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkToken()
         setContentView(com.example.apt_line_picker_app.R.layout.activity_restaurant)
         val account = GoogleSignIn.getLastSignedInAccount(this)
         token = account!!.idToken!!
@@ -49,7 +49,7 @@ class RestaurantActivity : AppCompatActivity() {
         getRestaurant(restaurantId, token!!, this)
     }
 
-    fun getRestaurant(id: String, idToken:String, context: Context){
+    fun getRestaurant(id: String, idToken: String, context: Context) {
         var restaurant = Restaurant(id)
         val url = "http://"+getString(R.string.local_ip)+":5000/mobile/restaurant/${restaurant.id}"
         val token = idToken
@@ -84,7 +84,7 @@ class RestaurantActivity : AppCompatActivity() {
     }
 
 
-    fun jsonToRestaurant(response: JSONObject):Restaurant {
+    fun jsonToRestaurant(response: JSONObject): Restaurant {
         val gson = GsonBuilder().create()
         val listType2 = object : TypeToken<Restaurant>() {
         }.type
@@ -93,10 +93,10 @@ class RestaurantActivity : AppCompatActivity() {
     }
 
 
-    fun updateRestaurantTable(restaurant: Restaurant){
+    fun updateRestaurantTable(restaurant: Restaurant) {
         val tl = findViewById(com.example.apt_line_picker_app.R.id.waitTimes) as TableLayout
         if (restaurant.wait_times != null) {
-            for(submission in restaurant.wait_times){
+            for (submission in restaurant.wait_times) {
                 val tr1 = TableRow(this)
 
                 val timeTextView = TextView(this)
@@ -130,9 +130,9 @@ class RestaurantActivity : AppCompatActivity() {
     }
 
     fun fillScrollView(restaurant: Restaurant, context: Context) {
-        var pictureView:LinearLayout = findViewById(com.example.apt_line_picker_app.R.id.imageHost)
+        var pictureView: LinearLayout = findViewById(com.example.apt_line_picker_app.R.id.imageHost)
         var picasso = Picasso.with(this)
-        for(image in restaurant.images) {
+        for (image in restaurant.images) {
             var newImage = ImageView(context)
             picasso
                 .load(image).fit().placeholder(com.example.apt_line_picker_app.R.drawable.picasso)
@@ -141,7 +141,7 @@ class RestaurantActivity : AppCompatActivity() {
         }
     }
 
-    fun submitWaitTime(view: View){
+    fun submitWaitTime(view: View) {
         val submitIntent = Intent(this, SubmitWaitTime::class.java)
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
@@ -153,5 +153,32 @@ class RestaurantActivity : AppCompatActivity() {
 
         startActivity(submitIntent)
     }
+
+    fun checkToken() {
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        val token = account!!.idToken
+
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/verify-token"
+
+        val jsonObjReq = object : JsonObjectRequest(
+            Method.GET,
+            url, null,
+            Response.Listener { response ->
+            },
+            Response.ErrorListener { error ->
+                startActivity(Intent(this, FirebaseActivity::class.java))
+            }) {
+            /** Passing some request headers*  */
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers.put("Content-Type", "application/json")
+                headers.put("token", token!!)
+                return headers
+            }
+        }
+        UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
+    }
+
 
 }
