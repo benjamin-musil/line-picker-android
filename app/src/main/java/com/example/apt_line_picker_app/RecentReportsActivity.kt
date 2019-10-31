@@ -14,9 +14,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
+class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -69,12 +70,37 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListe
     }
 
     private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-            PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
             return
         }
+
+        map.isMyLocationEnabled = true
+
+        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+            // Got last known location. In some rare situations this can be null.
+            if (location != null) {
+                lastLocation = location
+                val currentLatLng = LatLng(location.latitude, location.longitude)
+                placeMarkerOnMap(currentLatLng)
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+
+                // Show nearby recent reports
+                val testLatLng = LatLng(30.336235, -97.617303)
+                placeMarkerOnMap(testLatLng, "Applied Material's", "Hope I'm not here long!")
+            }
+        }
+    }
+
+    private fun placeMarkerOnMap(location: LatLng,restaurantTitle: String = "",
+                                 waitTime: String = "") {
+        // 1
+        val markerOptions =
+            MarkerOptions().position(location).title(restaurantTitle).snippet(waitTime)
+        // 2
+        map.addMarker(markerOptions)
     }
 }
 
