@@ -44,7 +44,6 @@ class RestaurantActivity : MenuCommon() {
 
         val extras = intent.extras
 
-
         restaurantId = extras?.getString("restaurantId") ?: "5db48d1a4d183fdcb32f8230"
         getRestaurant(restaurantId, token!!, this)
     }

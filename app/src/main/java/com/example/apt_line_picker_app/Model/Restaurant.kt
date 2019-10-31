@@ -9,7 +9,7 @@ class Restaurant(val id:String) {
     var images: List<String> = emptyList<String>()
     var category: String = ""
     var geolocation:String? = ""
-    var resported_by:String? =""
+    var reported_by:String? =""
 }
 
 
@@ -20,7 +20,7 @@ class SearchedRestaurant(val id:String) {
     var images: List<String> = emptyList<String>()
     var category: String = ""
     var geolocation:String? = ""
-    var resported_by:String? =""
+    var reported_by:String? =""
 }
 
 class SearchedRestaurantList(val id:String) {
