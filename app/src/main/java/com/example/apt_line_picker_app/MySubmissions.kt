@@ -114,7 +114,7 @@ class MySubmissions : MenuCommon() {
                 imageView.text = image[0]
                 val restaurantView = TextView(this)
                 restaurantView.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-                restaurantView.text = image[2]
+                restaurantView.text = image[1]
                 tr1.addView(imageView)
                 tr1.addView(restaurantView)
                 tl.addView(tr1)
