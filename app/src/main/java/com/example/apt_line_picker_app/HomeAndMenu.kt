@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.apt_line_picker_app.View.AddRestaurant
-import kotlinx.android.synthetic.main.activity_home_and_menu.view.*
+import com.example.apt_line_picker_app.View.SearchActivity
 
 class HomeAndMenu : MenuCommon() {
 
@@ -14,7 +14,7 @@ class HomeAndMenu : MenuCommon() {
         setContentView(R.layout.activity_home_and_menu)
     }
     fun SearchRestaurant(view: View) {
-        val SearchIntent = Intent(this, AddRestaurant::class.java)
+        val SearchIntent = Intent(this, SearchActivity::class.java)
         startActivity(SearchIntent)
     }
     fun AddRestaurant(view:View) {
