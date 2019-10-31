@@ -34,7 +34,7 @@ class AddRestaurant : MenuCommon() {
     }
 
     fun getCategoryData(context: Context) {
-        val url = "http://10.0.2.2:5000/mobile/get-all-categories"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/get-all-categories"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
@@ -77,7 +77,7 @@ class AddRestaurant : MenuCommon() {
         val token = account!!.idToken
 
 
-        val url = "http://10.0.2.2:5000/mobile/submit-restaurant"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/submit-restaurant"
         val address: String =
             findViewById<EditText>(com.example.apt_line_picker_app.R.id.RestaurantAddress).text.toString()
         val name: String =
@@ -131,7 +131,7 @@ class AddRestaurant : MenuCommon() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val url = "http://10.0.2.2:5000/mobile/verify-token"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/verify-token"
 
         val jsonObjReq = object : JsonObjectRequest(
             Method.GET,

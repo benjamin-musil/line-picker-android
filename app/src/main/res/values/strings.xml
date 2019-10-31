@@ -16,4 +16,5 @@
     <string name="action_userSettings">My Settings</string>
     <string name="action_addRestuarrant">Add Restaurant</string>
     <string name="action_exitApplication">Exit</string>
+    <string name="title_activity_recent_reports">Map</string>
 </resources>

@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.*
+import com.android.volley.DefaultRetryPolicy
 import com.example.apt_line_picker_app.*
 import com.squareup.picasso.Picasso
 
@@ -50,7 +51,7 @@ class RestaurantActivity : MenuCommon() {
 
     fun getRestaurant(id: String, idToken: String, context: Context) {
         var restaurant = Restaurant(id)
-        val url = "http://10.0.2.2:5000/mobile/restaurant/${restaurant.id}"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/restaurant/${restaurant.id}"
         val token = idToken
 
         val jsonObjReq = object : JsonObjectRequest(
@@ -76,6 +77,7 @@ class RestaurantActivity : MenuCommon() {
                 return headers
             }
         }
+        jsonObjReq.retryPolicy = DefaultRetryPolicy(15000,1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
         // Access the RequestQueue through your singleton class.
         Util.MySingleton.getInstance(context).addToRequestQueue(jsonObjReq)
@@ -156,7 +158,7 @@ class RestaurantActivity : MenuCommon() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val url = "http://10.0.2.2:5000/mobile/verify-token"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/verify-token"
 
         val jsonObjReq = object : JsonObjectRequest(
             Method.GET,

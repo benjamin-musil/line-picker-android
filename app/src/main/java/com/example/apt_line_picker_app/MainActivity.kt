@@ -14,6 +14,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.example.apt_line_picker_app.View.AddRestaurant
 import com.example.apt_line_picker_app.View.RestaurantActivity
+import com.example.apt_line_picker_app.View.SubmitWaitTime
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val url = "http://10.0.2.2:5000/mobile/verify-token"
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/verify-token"
 
         val jsonObjReq = object : JsonObjectRequest(
             Method.GET,
