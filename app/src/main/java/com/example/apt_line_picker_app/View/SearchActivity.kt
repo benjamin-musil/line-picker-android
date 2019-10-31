@@ -5,10 +5,12 @@ import android.os.Bundle
 import com.example.apt_line_picker_app.MenuCommon
 import androidx.core.view.MenuItemCompat.getActionView
 import android.R
+import android.content.Intent
 import androidx.core.app.ComponentActivity
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.adapters.SearchViewBindingAdapter
 import com.android.volley.AuthFailureError
@@ -25,6 +27,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_my_submissions.*
 import org.json.JSONObject
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_firebase.*
 
 
 class SearchActivity : MenuCommon() {
@@ -54,15 +58,15 @@ class SearchActivity : MenuCommon() {
 
     }
 
-    fun getData(query:String) {
+    fun getData(query: String) {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
         var params = HashMap<String, String>()
         params.put("restaurant_tag", query)
 
-
-        val url = "http://"+getString(com.example.apt_line_picker_app.R.string.local_ip)+":5000/mobile/ListAllRestaurant/Search"
+        val url =
+            "http://" + getString(com.example.apt_line_picker_app.R.string.local_ip) + ":5000/mobile/ListAllRestaurant/Search"
         val jsonObjReq = object : JsonObjectRequest(
             Method.POST,
             url, JSONObject(params.toMap()),
@@ -71,7 +75,7 @@ class SearchActivity : MenuCommon() {
                 fillResultsTable(results.restaurants)
             },
             Response.ErrorListener { error ->
-//                textView3.text = error.toString()
+                //                textView3.text = error.toString()
             }) {
             /** Passing some request headers*  */
             @Throws(AuthFailureError::class)
@@ -83,36 +87,60 @@ class SearchActivity : MenuCommon() {
             }
         }
         jsonObjReq.setRetryPolicy(
-            DefaultRetryPolicy(25000,0,
+            DefaultRetryPolicy(0,
+                0,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-        )
+            )
+
         // Access the RequestQueue through your singleton class.
         MySubmissions.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
     }
 
     fun fillResultsTable(results: List<SearchedRestaurant>) {
         val table = findViewById<TableLayout>(com.example.apt_line_picker_app.R.id.results)
+
         for (restaurant in results) {
             val row = TableRow(this)
             val name = TextView(this)
+            name.width = 50
             name.text = restaurant.name
             val address = TextView(this)
+            address.width = 50
             address.text = restaurant.address
             val waitTime = TextView(this)
             waitTime.text = restaurant.wait_times
-            val by = TextView(this)
-            by.text = restaurant.resported_by
+
+            val goToNew = Button(this)
+            goToNew.text = "Go"
+            goToNew.maxWidth = 30
+            goToNew.minWidth = 0
+            goToNew.setOnClickListener {
+                val restaurantIntent = Intent(this, RestaurantActivity::class.java)
+                val extras = Bundle()
+                extras.putString("restaurantId", restaurant.id)
+                restaurantIntent.putExtras(extras)
+                startActivity(restaurantIntent)
+            }
+
             val image = ImageView(this)
+            var picasso = Picasso.with(this)
+            var imageForRest = restaurant.images[0]
+            if (imageForRest == "") {
+                imageForRest = "https://www.drupal.org/files/styles/grid-3-2x/public/project-images/drupal-addtoany-logo.png"
+            }
+            picasso
+                .load(imageForRest).resize(100,100)
+                .placeholder(com.example.apt_line_picker_app.R.drawable.apt_burger)
+                .into(image)
             row.addView(name)
             row.addView(address)
             row.addView(waitTime)
-            row.addView(by)
+
+            row.addView(image)
+            row.addView(goToNew)
             table.addView(row)
-
-
         }
     }
-
 
 
     fun jsonToRestaurant(response: JSONObject): SearchedRestaurantList {

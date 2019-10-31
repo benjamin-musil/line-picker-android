@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.SearchActivity">
+    tools:context=".View.SearchActivity"
+    android:windowSoftInputMode="adjustResize">
 
     <SearchView
         android:id="@+id/search"
@@ -13,7 +14,8 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchTextStatic" />
+        app:layout_constraintTop_toBottomOf="@+id/searchTextStatic"
+        android:windowSoftInputMode="adjustNothing"/>
 
     <TextView
         android:id="@+id/searchTextStatic"
@@ -26,31 +28,37 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_width="414dp"
-        android:layout_height="483dp"
+        android:layout_width="400dp"
+        android:layout_height="288dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.142"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search"
-        app:layout_constraintVertical_bias="0.647">
+        app:layout_constraintVertical_bias="0.531"
+        android:windowSoftInputMode="adjustNothing">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:windowSoftInputMode="adjustNothing">
 
             <TableLayout
                 android:id="@+id/results"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/WaitTime"
-                app:layout_constraintVertical_bias="0.05">
+                app:layout_constraintVertical_bias="0.05"
+                android:windowSoftInputMode="adjustNothing">
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="337dp"
+                    android:layout_height="5dp">
 
                     <TextView
                         android:layout_width="85dp"
@@ -73,15 +81,23 @@
                         app:layout_constraintVertical_bias="0.05" />
 
                     <TextView
+                        android:layout_width="58dp"
                         android:layout_height="match_parent"
                         android:background="#4CAF50"
                         android:text="Time" />
 
                     <TextView
-                        android:layout_width="175dp"
+
+                        android:layout_width="82dp"
                         android:layout_height="match_parent"
                         android:background="#4CAF50"
                         android:text="image" />
+
+                    <TextView
+                        android:layout_width="77dp"
+                        android:layout_height="match_parent"
+                        android:background="#4CAF50"
+                        android:text="Go To" />
                 </TableRow>
 
             </TableLayout>
