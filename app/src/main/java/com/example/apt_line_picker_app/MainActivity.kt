@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/verify-token"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/verify-token"
 
         val jsonObjReq = object : JsonObjectRequest(
             Method.GET,

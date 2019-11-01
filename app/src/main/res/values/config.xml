@@ -1,3 +1,4 @@
 <resources>
-    <string name="local_ip">10.0.0.4</string>
+<!--    <string name="base_url">10.0.2.2:5000</string>-->
+    <string name="base_url">apt-line-picker.appspot.com</string>
 </resources>

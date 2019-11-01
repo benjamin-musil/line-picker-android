@@ -50,7 +50,7 @@ class RestaurantActivity : MenuCommon() {
 
     fun getRestaurant(id: String, idToken: String, context: Context) {
         var restaurant = Restaurant(id)
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/restaurant/${restaurant.id}"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/restaurant/${restaurant.id}"
         val token = idToken
 
         val jsonObjReq = object : JsonObjectRequest(
@@ -157,7 +157,7 @@ class RestaurantActivity : MenuCommon() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/verify-token"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/verify-token"
 
         val jsonObjReq = object : JsonObjectRequest(
             Method.GET,

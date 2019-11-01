@@ -1,23 +1,13 @@
 package com.example.apt_line_picker_app
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.android.volley.*
-import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.apt_line_picker_app.Model.SearchedRestaurant
-import com.example.apt_line_picker_app.Model.SearchedRestaurantList
-import com.example.apt_line_picker_app.Model.User
-import com.example.apt_line_picker_app.View.RestaurantActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -29,24 +19,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_restaurant.*
-import kotlinx.android.synthetic.main.activity_user_settings.*
-import java.lang.reflect.Method
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Response;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonRequest;
 import com.example.apt_line_picker_app.Utils.MyJsonArrayRequest
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 class RecentReportsActivity : MenuCommon(), OnMapReadyCallback, OnMarkerClickListener {
 
@@ -136,7 +113,7 @@ class RecentReportsActivity : MenuCommon(), OnMapReadyCallback, OnMarkerClickLis
     }
 
     private fun getData(context: Context, latitude: Double, longitude: Double) {
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/recent-reports"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/recent-reports"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken

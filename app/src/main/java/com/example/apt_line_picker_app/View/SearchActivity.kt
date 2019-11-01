@@ -66,7 +66,7 @@ class SearchActivity : MenuCommon() {
         params.put("restaurant_tag", query)
 
         val url =
-            "http://" + getString(com.example.apt_line_picker_app.R.string.local_ip) + ":5000/mobile/ListAllRestaurant/Search"
+            "http://" + getString(com.example.apt_line_picker_app.R.string.base_url) + "/mobile/ListAllRestaurant/Search"
         val jsonObjReq = object : JsonObjectRequest(
             Method.POST,
             url, JSONObject(params.toMap()),

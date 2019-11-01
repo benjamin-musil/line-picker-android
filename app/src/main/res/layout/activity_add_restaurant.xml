@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".View.AddRestaurant">
+
     <TextView
         android:id="@+id/Header"
         android:layout_width="match_parent"
@@ -15,25 +16,27 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.007" />
 
     <EditText
         android:id="@+id/RestaurantName"
         android:layout_width="match_parent"
-        android:layout_marginRight="50dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
+        android:layout_marginRight="50dp"
         android:ems="10"
         android:hint="Name Of Restaurant"
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Header"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <EditText
         android:id="@+id/RestaurantAddress"
@@ -48,9 +51,10 @@
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RestaurantName"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.027" />
 
     <RadioGroup
         android:id="@+id/RestaurantCategory"
@@ -60,17 +64,17 @@
         android:gravity="left"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RestaurantAddress"
-        app:layout_constraintVertical_bias="0.08">
+        app:layout_constraintVertical_bias="0.026">
 
         <TextView
             android:id="@+id/RestaurantCategoryLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:text="Restaurant Category"
-            />
+            android:text="Restaurant Category" />
 
     </RadioGroup>
 

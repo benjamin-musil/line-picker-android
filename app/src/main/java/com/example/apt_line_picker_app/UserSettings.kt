@@ -40,7 +40,7 @@ class UserSettings : MenuCommon() {
     }
 
     fun getData(context: Context) {
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/user-settings"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/user-settings"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
@@ -73,7 +73,7 @@ class UserSettings : MenuCommon() {
     }
 
     fun getCategoryData(context: Context) {
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/get-all-categories"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/get-all-categories"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
@@ -132,7 +132,7 @@ class UserSettings : MenuCommon() {
         val idSelected = RestaurantCategory.checkedRadioButtonId
         if (idSelected != -1) {
             val radio: RadioButton = findViewById(idSelected)
-            val url = "http://"+getString(R.string.local_ip)+":5000/mobile/update-user"
+            val url = "http://"+getString(R.string.base_url)+"/mobile/update-user"
             val category: String = radio.text.toString()
             var params = HashMap<String, String>()
             params.put("category", category)
@@ -200,7 +200,7 @@ class UserSettings : MenuCommon() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/verify-token"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/verify-token"
 
         val jsonObjReq = object : JsonObjectRequest(
             Method.GET,

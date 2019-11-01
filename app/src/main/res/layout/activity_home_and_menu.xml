@@ -12,7 +12,7 @@
         android:id="@+id/SearchRestaurant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
+        android:layout_marginBottom="84dp"
         android:background="#4CAF50"
         android:onClick="SearchRestaurant"
         android:text="Search Restaurant"

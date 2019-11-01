@@ -45,7 +45,7 @@ class MySubmissions : MenuCommon() {
         val token = account!!.idToken
         val currentuser = FirebaseAuth.getInstance().currentUser!!.displayName
         val gooduid = currentuser!!.replace(" ", "_")
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/"+gooduid+"/mysubmissions"
+        val url = "http://"+getString(R.string.base_url)+"/mobile/"+gooduid+"/mysubmissions"
         val jsonObjReq = object : JsonObjectRequest(Method.GET,
             url, null,
             Response.Listener { response ->
