@@ -1,17 +1,23 @@
 package com.example.apt_line_picker_app
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.RadioButton
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.android.volley.AuthFailureError
-import com.android.volley.Response
+import com.android.volley.*
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.example.apt_line_picker_app.Model.SearchedRestaurant
+import com.example.apt_line_picker_app.Model.SearchedRestaurantList
 import com.example.apt_line_picker_app.Model.User
+import com.example.apt_line_picker_app.View.RestaurantActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -24,7 +30,23 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_restaurant.*
 import kotlinx.android.synthetic.main.activity_user_settings.*
+import java.lang.reflect.Method
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Response;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonRequest;
+import com.example.apt_line_picker_app.Utils.MyJsonArrayRequest
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 
 class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
@@ -48,8 +70,6 @@ class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerC
         mapFragment.getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-        getData(this)
     }
 
     /**
@@ -96,58 +116,51 @@ class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerC
             if (location != null) {
                 lastLocation = location
 
-
-                // UT Engineering Building for debug
-                val currentLatLng = LatLng(30.2875301, -97.7360316)
-
                 // Use actual location of device
-                //val currentLatLng = LatLng(location.latitude, location.longitude)
-
+                val currentLatLng = LatLng(location.latitude, location.longitude)
                 placeMarkerOnMap(currentLatLng)
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
 
                 // Show nearby recent reports
-                // Place this in a loop that goes through an array of report data and extract restaurant id/title, location,
-                // and wait time (and time of that report submission)
-                //placeNearbyMarkers(lastlocation)
-
-                val testLatLng = LatLng(30.336235, -97.617303) // Applied Materials Austin
-                placeMarkerOnMap(testLatLng, "Applied Material's", "Hope I'm not here long!")
+                getData(this, location.latitude, location.longitude)
             }
         }
     }
 
-    private fun placeNearbyMarkers(location: LatLng) {
-
-    }
-
-    private fun placeMarkerOnMap(location: LatLng,restaurantTitle: String = "",
-                                 waitTime: String = "") {
-        // 1
+    private fun placeMarkerOnMap(location: LatLng, restaurantTitle: String = "",
+                                 waitTime: String? = "") {
+        // Compile marker options
         val markerOptions =
-            MarkerOptions().position(location).title(restaurantTitle).snippet(waitTime)
-        // 2
+            MarkerOptions().position(location).title(restaurantTitle).snippet(waitTime + " minute wait")
+        // Create marker
         map.addMarker(markerOptions)
     }
 
-    fun getData(context: Context) {
-        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/recent-reports" // replace with url to get recent searches
+    private fun getData(context: Context, latitude: Double, longitude: Double) {
+        val url = "http://"+getString(R.string.local_ip)+":5000/mobile/recent-reports"
 
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val jsonObjReq = object : JsonObjectRequest(
-            Method.GET,
-            url, null,
+        var params = HashMap<String, String>()
+        params.put("lat1", latitude.toString())
+        params.put("long1", longitude.toString())
+
+        val jsonArrayReq = object : MyJsonArrayRequest(
+            Method.POST,
+            url, JSONObject(params.toMap()),
             Response.Listener { response ->
-                run {
-                    val user = jsonToUser(response["user"].toString())
-                    fillUserSettings(user, context)
+                // On good response, get results of nearby restaurant submissions
+                // Only loops once, JsonArrays do not have iterators built in
+                for (i in 0 until response.length()) {
+                    val item = response.getJSONObject(i)
+
+                    val result = jsonToRestaurant(item)
+                    createReportMarkers(result)
                 }
             },
             Response.ErrorListener { error ->
-                textView2.visibility = View.VISIBLE
-                textView2.text = error.toString()
+                // Error message here
             }) {
             /** Passing some request headers*  */
             @Throws(AuthFailureError::class)
@@ -158,27 +171,64 @@ class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerC
                 return headers
             }
         }
+                jsonArrayReq.setRetryPolicy(
+            DefaultRetryPolicy(150000,
+                0,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        )
 
         // Access the RequestQueue through your singleton class.
-        UserSettings.MySingleton.getInstance(this).addToRequestQueue(jsonObjReq)
+       MySingleton.getInstance(this).addToRequestQueue(jsonArrayReq)
     }
 
-    fun jsonToUser(response: String): User {
-        val user = Gson().fromJson(response.toString(), User::class.java)
-        return user;
+    fun jsonToRestaurant(response: JSONObject): SearchedRestaurant {
+        val gson = GsonBuilder().create()
+        val listType2 = object : TypeToken<SearchedRestaurant>() {
+        }.type
+
+        return gson.fromJson<SearchedRestaurant>(response.toString(), listType2)
     }
 
-    fun fillUserSettings(user: User, context: Context) {
-        Header.text = user.user_id.toString()
-        EmailId.text = user.email.toString()
-        for (i in 1 until RestaurantCategory.childCount) {
-            val id = RestaurantCategory.getChildAt(i).getId()
-            val category = findViewById<RadioButton>(id)
-            if (category.text == user.favorite_food) {
-                category.isChecked = true
-            }
+    fun createReportMarkers(result: SearchedRestaurant) {
 
+        // Get latitude and longitude of restaurant
+        // Regex
+        val pattern = Regex("[.\\d-]+")
+        val matchResults = pattern.findAll(result.geolocation.toString())
+        var matches : MutableList<String> = mutableListOf<String>()
+        matchResults.forEach { match ->
+            matches.add(match.value)
+        }
+
+        // assign values
+        val restaurantLat = matches[0].toDouble()
+        val restaurantLong = matches[1].toDouble()
+        val restaurantLatLng = LatLng(restaurantLat, restaurantLong)
+
+        // Create marker for restaurant on map
+        placeMarkerOnMap(restaurantLatLng, result.name, result.wait_times)
+
+    }
+
+    class MySingleton constructor(context: Context) {
+        companion object {
+            @Volatile
+            private var INSTANCE: MySingleton? = null
+            fun getInstance(context: Context) =
+                INSTANCE ?: synchronized(this) {
+                    INSTANCE ?: MySingleton(context).also {
+                        INSTANCE = it
+                    }
+                }
+        }
+        val requestQueue: RequestQueue by lazy {
+            // applicationContext is key, it keeps you from leaking the
+            // Activity or BroadcastReceiver if someone passes one in.
+            Volley.newRequestQueue(context.applicationContext)
+        }
+        fun <T> addToRequestQueue(req: Request<T>) {
+            requestQueue.add(req)
         }
     }
-}
 
+}
