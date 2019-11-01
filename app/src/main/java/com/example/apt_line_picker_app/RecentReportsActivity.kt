@@ -48,7 +48,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
+class RecentReportsActivity : MenuCommon(), OnMapReadyCallback, OnMarkerClickListener {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
