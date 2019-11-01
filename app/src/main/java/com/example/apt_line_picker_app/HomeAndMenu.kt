@@ -17,6 +17,13 @@ class HomeAndMenu : MenuCommon() {
         val SearchIntent = Intent(this, SearchActivity::class.java)
         startActivity(SearchIntent)
     }
+
+    fun ViewRecentReports(view: View) {
+        val ReportsIntent = Intent(this, RecentReportsActivity::class.java)
+        startActivity(ReportsIntent)
+    }
+
+
     fun AddRestaurant(view:View) {
 
         val AddRestaurantIntent=Intent(this, AddRestaurant::class.java)

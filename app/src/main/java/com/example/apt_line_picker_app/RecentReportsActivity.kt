@@ -27,7 +27,7 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_user_settings.*
 
 
-class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
+class RecentReportsActivity : MenuCommon(), OnMapReadyCallback, OnMarkerClickListener {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1

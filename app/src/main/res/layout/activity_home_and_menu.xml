@@ -7,61 +7,62 @@
     android:background="#2196F3"
     tools:context=".HomeAndMenu">
 
+
     <Button
         android:id="@+id/SearchRestaurant"
-        android:onClick="SearchRestaurant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="132dp"
         android:background="#4CAF50"
+        android:onClick="SearchRestaurant"
         android:text="Search Restaurant"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/viewRecentReports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:background="#4CAF50"
+        android:onClick="ViewRecentReports"
+        android:text="View Recent Reports"
+        app:layout_constraintBottom_toTopOf="@+id/Settings"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/AddRestaurant"
-        android:onClick="AddRestaurant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="60dp"
         android:background="#4CAF50"
+        android:onClick="AddRestaurant"
         android:text="Add A Restaurant"
-        app:layout_constraintBottom_toTopOf="@id/Submissions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/SearchRestaurant"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintBottom_toTopOf="@+id/Submissions"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.984"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/Submissions"
-        android:onClick="MySubmissions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="60dp"
         android:background="#4CAF50"
+        android:onClick="MySubmissions"
         android:text="My Submissions"
-        app:layout_constraintBottom_toTopOf="@id/Settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/AddRestaurant"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintBottom_toTopOf="@+id/viewRecentReports"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/Settings"
-        android:onClick="Settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginBottom="60dp"
         android:background="#4CAF50"
-        android:text="Settings"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Submissions"
-        app:layout_constraintVertical_bias="0.15"
 
-        />
+        android:onClick="Settings"
+        android:text="Settings"
+        app:layout_constraintBottom_toTopOf="@+id/SearchRestaurant"
+        tools:layout_editor_absoluteX="16dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
