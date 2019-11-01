@@ -12,9 +12,6 @@ import androidx.core.content.ContextCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.example.apt_line_picker_app.View.AddRestaurant
-import com.example.apt_line_picker_app.View.RestaurantActivity
-import com.example.apt_line_picker_app.View.SubmitWaitTime
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 
