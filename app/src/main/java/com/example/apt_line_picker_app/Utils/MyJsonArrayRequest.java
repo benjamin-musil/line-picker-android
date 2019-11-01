@@ -12,6 +12,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+// source code from https://stackoverflow.com/a/45978831
+// Creates json array request that requests array but sends object
 public class MyJsonArrayRequest extends JsonRequest<JSONArray> {
 
 

@@ -48,7 +48,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-
 class RecentReportsActivity : AppCompatActivity(), OnMapReadyCallback, OnMarkerClickListener {
 
     companion object {
