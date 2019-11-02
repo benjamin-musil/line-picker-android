@@ -20,8 +20,17 @@
         android:title="@string/action_addRestuarrant"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_searchRestaurant"
+        android:title="@string/action_searchRestaurant"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_recentReports"
+        android:title="@string/action_recentRestaurants"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_exitApplication"
         android:title="@string/action_exitApplication"
         android:orderInCategory="101"
         app:showAsAction="never"/>
+
 </menu>

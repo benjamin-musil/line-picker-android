@@ -7,9 +7,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.apt_line_picker_app.View.AddRestaurant
+import com.example.apt_line_picker_app.View.SearchActivity
 
 
-abstract class MenuCommon: AppCompatActivity() {
+abstract class MenuCommon : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -20,30 +21,40 @@ abstract class MenuCommon: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_homeScreen -> {
-                val HomeScreenIntent= Intent(this,HomeAndMenu::class.java)
+                val HomeScreenIntent = Intent(this, HomeAndMenu::class.java)
                 startActivity(HomeScreenIntent)
                 return true
             }
             R.id.action_mySubmissions -> {
-                val MySubmissionsIntent= Intent(this,MySubmissions::class.java)
+                val MySubmissionsIntent = Intent(this, MySubmissions::class.java)
                 startActivity(MySubmissionsIntent)
                 return true
             }
             R.id.action_addRestuarrant -> {
-                val AddRestaurantIntent= Intent(this, AddRestaurant::class.java)
+                val AddRestaurantIntent = Intent(this, AddRestaurant::class.java)
                 startActivity(AddRestaurantIntent)
                 return true
             }
-            R.id.action_userSettings ->{
-                val UserSettingsIntent= Intent(this,UserSettings::class.java)
+            R.id.action_searchRestaurant -> {
+                val searchActivity = Intent(this, SearchActivity::class.java)
+                startActivity(searchActivity)
+                return true
+            }
+            R.id.action_recentReports -> {
+                val reportsActivity = Intent(this, RecentReportsActivity::class.java)
+                startActivity(reportsActivity)
+                return true
+            }
+            R.id.action_userSettings -> {
+                val UserSettingsIntent = Intent(this, UserSettings::class.java)
                 startActivity(UserSettingsIntent)
                 return true
-
             }
-            R.id.action_exitApplication ->{
+            R.id.action_exitApplication -> {
                 ActivityCompat.finishAffinity(this)
-                 return  true;
+                return true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import com.android.volley.*
 import com.android.volley.toolbox.Volley
@@ -114,10 +115,10 @@ class RecentReportsActivity : MenuCommon(), OnMapReadyCallback, OnMarkerClickLis
 
     private fun getData(context: Context, latitude: Double, longitude: Double) {
         val url = "http://"+getString(R.string.base_url)+"/mobile/recent-reports"
-
+        Log.e(null, "url set")
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
-
+        Log.e(null, token.toString())
         var params = HashMap<String, String>()
         params.put("lat1", latitude.toString())
         params.put("long1", longitude.toString())
@@ -136,6 +137,7 @@ class RecentReportsActivity : MenuCommon(), OnMapReadyCallback, OnMarkerClickLis
                 }
             },
             Response.ErrorListener { error ->
+                Log.e(null, error.toString())
                 // Error message here
             }) {
             /** Passing some request headers*  */

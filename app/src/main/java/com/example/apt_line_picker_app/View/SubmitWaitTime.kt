@@ -153,15 +153,16 @@ class SubmitWaitTime : AppCompatActivity() {
                 Response.Listener { response ->
                     val restaurantIntent = Intent(this, RestaurantActivity::class.java)
                     val extras = Bundle()
-                    extras.putString("restaurantId", response["id"].toString())
+
+                    extras.putString("restaurantId", response["Id"].toString())
                     restaurantIntent.putExtras(extras)
-                    startActivity(Intent(this, RestaurantActivity::class.java))
+                    startActivity(restaurantIntent)
                 },
                 Response.ErrorListener { error ->
                     val restaurantIntent = Intent(this, RestaurantActivity::class.java)
                     val extras = Bundle()
                     restaurantIntent.putExtras(extras)
-                    startActivity(Intent(this, RestaurantActivity::class.java))
+                    startActivity(restaurantIntent)
                 }) {
                 /** Passing some request headers*  */
                 @Throws(AuthFailureError::class)

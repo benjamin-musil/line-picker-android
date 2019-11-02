@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_main)
+        startActivity(Intent(this, HomeAndMenu::class.java))
         checkToken()
         val account = GoogleSignIn.getLastSignedInAccount(this)
         if (account != null && FirebaseAuth.getInstance().currentUser != null) {
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
         val token = account!!.idToken
 
-        val url = "http://"+getString(R.string.base_url)+"/mobile/verify-token"
+        val url = "https://"+getString(R.string.base_url)+"/mobile/verify-token"
 
         val jsonObjReq = object : JsonObjectRequest(
             Method.GET,
